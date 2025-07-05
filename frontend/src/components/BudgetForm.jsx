@@ -4,6 +4,9 @@ import { useUser } from "../context/UserContext";
 import axios from "axios";
 import { categories } from "../services/category.service"; // Import categories
 
+// Define your backend API base URL using an environment variable
+const API_BASE_URL = import.meta.env.VITE_APP_BACKEND_API_URL;
+
 const BudgetForm = ({ onBudgetSuccess, currentBudgets = [] }) => {
   const { userId } = useUser();
   const [category, setCategory] = useState(
@@ -54,7 +57,8 @@ const BudgetForm = ({ onBudgetSuccess, currentBudgets = [] }) => {
     };
 
     try {
-      await axios.post("http://localhost:3000/api/budgets", budgetData);
+      // UPDATED AXIOS ENDPOINT
+      await axios.post(`${API_BASE_URL}/api/budgets`, budgetData);
       setSuccessMessage("Budget saved successfully!");
       onBudgetSuccess(); // Trigger a refresh of budgets
       // Optionally reset form for next entry
@@ -69,7 +73,7 @@ const BudgetForm = ({ onBudgetSuccess, currentBudgets = [] }) => {
   };
 
   const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 5 }, (_, i) => currentYear - 2 + i); // Current year, 2 before, 2 after
+  const years = Array.from({ length: 5 }, (_, i) => currentYear - 2 + i); // Current year, 2 years before, 2 years after
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 font-sans">

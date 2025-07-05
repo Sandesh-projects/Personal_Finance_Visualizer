@@ -4,6 +4,9 @@ import { useUser } from "../context/UserContext";
 import axios from "axios";
 import { categories } from "../services/category.service"; // Import categories
 
+// Define your backend API base URL using an environment variable
+const API_BASE_URL = import.meta.env.VITE_APP_BACKEND_API_URL;
+
 const TransactionForm = ({ onTransactionSuccess, transactionToEdit }) => {
   const { userId } = useUser();
 
@@ -77,9 +80,10 @@ const TransactionForm = ({ onTransactionSuccess, transactionToEdit }) => {
       category,
     };
 
+    // UPDATED URL CONSTRUCTION
     const url = isEditing
-      ? `http://localhost:3000/api/transactions/${transactionToEdit._id}`
-      : "http://localhost:3000/api/transactions";
+      ? `${API_BASE_URL}/api/transactions/${transactionToEdit._id}`
+      : `${API_BASE_URL}/api/transactions`;
     const requestMethod = isEditing ? "put" : "post";
 
     try {

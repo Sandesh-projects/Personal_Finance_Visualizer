@@ -12,6 +12,9 @@ import {
 } from "recharts";
 import { getCategoryLabel } from "../services/category.service"; // For labels
 
+// Define your backend API base URL using an environment variable
+const API_BASE_URL = import.meta.env.VITE_APP_BACKEND_API_URL;
+
 // Define a consistent color palette based on the design system and common UI colors
 const COLORS = [
   "#6366f1", // indigo-500
@@ -41,8 +44,9 @@ const CategoryPieChart = ({ triggerRefresh }) => {
     setLoading(true);
     setError(null);
     try {
+      // UPDATED AXIOS ENDPOINT
       const response = await axios.get(
-        `http://localhost:3000/api/transactions/${userId}/category-breakdown`
+        `${API_BASE_URL}/api/transactions/${userId}/category-breakdown`
       );
       // Filter out income AND ensure totalAmount is a valid, non-zero number
       const data = response.data.filter(
@@ -67,7 +71,7 @@ const CategoryPieChart = ({ triggerRefresh }) => {
     } finally {
       setLoading(false);
     }
-  }, [userId]);
+  }, [userId, API_BASE_URL]); // Added API_BASE_URL to dependency array
 
   useEffect(() => {
     fetchCategoryBreakdown();

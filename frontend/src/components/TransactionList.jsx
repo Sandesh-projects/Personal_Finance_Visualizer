@@ -6,6 +6,9 @@ import { getCategoryLabel } from "../services/category.service";
 import { Link } from "react-router-dom";
 import { ArrowDown, ArrowUp } from "lucide-react";
 
+// Define your backend API base URL using an environment variable
+const API_BASE_URL = import.meta.env.VITE_APP_BACKEND_API_URL;
+
 const TransactionList = ({ transactions, onEdit, onDelete, onDataRefresh }) => {
   const { userId } = useUser();
   const [loading, setLoading] = useState(false);
@@ -24,7 +27,8 @@ const TransactionList = ({ transactions, onEdit, onDelete, onDataRefresh }) => {
     setError(null);
     setLoading(true);
     try {
-      await axios.delete(`http://localhost:3000/api/transactions/${id}`, {
+      // UPDATED AXIOS DELETE ENDPOINT
+      await axios.delete(`${API_BASE_URL}/api/transactions/${id}`, {
         params: { userId: userId },
       });
       onDataRefresh();
@@ -87,7 +91,7 @@ const TransactionList = ({ transactions, onEdit, onDelete, onDataRefresh }) => {
   const showShowLessButton = showAllTransactions || transactionsPerPage > 5;
 
   return (
-    <div className="overflow-x-auto font-sans bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-xl  pb-4">
+    <div className="overflow-x-auto font-sans bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-xl pb-4">
       <table className="min-w-full rounded-t-lg overflow-hidden">
         <thead className="bg-slate-700">
           <tr>
@@ -106,7 +110,6 @@ const TransactionList = ({ transactions, onEdit, onDelete, onDataRefresh }) => {
           </tr>
         </thead>
         <tbody className="divide-y divide-slate-700">
-          {/* REMOVED: {" "} here */}
           {transactionsToDisplay.map((transaction) => (
             <tr
               key={transaction._id}

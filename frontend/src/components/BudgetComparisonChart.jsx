@@ -1,4 +1,3 @@
-// frontend/src/components/BudgetComparisonChart.jsx
 import React, { useState, useEffect, useCallback } from "react";
 import { useUser } from "../context/UserContext";
 import axios from "axios";
@@ -13,6 +12,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { getCategoryLabel } from "../services/category.service"; // For labels
+
+// Define your backend API base URL using an environment variable
+const API_BASE_URL = import.meta.env.VITE_APP_BACKEND_API_URL;
 
 const BudgetComparisonChart = ({ triggerRefresh }) => {
   const { userId } = useUser();
@@ -31,8 +33,9 @@ const BudgetComparisonChart = ({ triggerRefresh }) => {
     setLoading(true);
     setError(null);
     try {
+      // UPDATED AXIOS ENDPOINT
       const response = await axios.get(
-        `http://localhost:3000/api/budgets/${userId}/comparison`,
+        `${API_BASE_URL}/api/budgets/${userId}/comparison`,
         {
           params: { month: selectedMonth, year: selectedYear },
         }
@@ -52,11 +55,11 @@ const BudgetComparisonChart = ({ triggerRefresh }) => {
     } finally {
       setLoading(false);
     }
-  }, [userId, selectedMonth, selectedYear]);
+  }, [userId, selectedMonth, selectedYear, API_BASE_URL]); // Added API_BASE_URL to dependency array
 
   useEffect(() => {
     fetchBudgetComparison();
-  }, [fetchBudgetComparison, triggerRefresh]);
+  }, [fetchBudgetComparison, triggerRefresh]); // fetchBudgetComparison is already memoized
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 5 }, (_, i) => currentYear - 2 + i); // Current year, 2 years before, 2 years after

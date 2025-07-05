@@ -15,6 +15,9 @@ import {
   PieChart,
 } from "lucide-react";
 
+// Define your backend API base URL using an environment variable
+const API_BASE_URL = import.meta.env.VITE_APP_BACKEND_API_URL;
+
 const BudgetingPage = () => {
   const { userId, loadingUser, error: userError } = useUser();
   const [budgets, setBudgets] = useState([]);
@@ -24,13 +27,19 @@ const BudgetingPage = () => {
   const [currentMonthBudgetComparison, setCurrentMonthBudgetComparison] =
     useState([]);
 
-  // Reusable Tailwind classes for consistency
+  // Reusable Tailwind classes for consistency from LandingPage
+  const sectionContainerClasses = "py-16";
+  const contentWrapperClasses = "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8";
   const cardClasses =
-    "bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-slate-700/50 transition-all duration-300 shadow-xl";
-  const titleClasses =
-    "text-4xl md:text-5xl font-bold text-white mb-4 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent";
+    "bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-slate-700/50 shadow-xl";
+  const mainTitleClasses =
+    "text-5xl md:text-7xl font-bold text-white mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent";
+  const sectionTitleClasses =
+    "text-4xl font-bold text-white mb-6 pb-4 border-b border-slate-700 text-center";
   const subtitleClasses =
     "text-xl text-slate-300 max-w-2xl mx-auto text-center mb-12";
+  const cardHeadingClasses =
+    "text-2xl font-semibold text-white mb-4 pb-2 border-b border-slate-700";
 
   const fetchBudgets = useCallback(async () => {
     if (!userId) return;
@@ -38,14 +47,14 @@ const BudgetingPage = () => {
     setBudgetError(null);
     try {
       const budgetsResponse = await axios.get(
-        `http://localhost:3000/api/budgets/${userId}`
+        `${API_BASE_URL}/api/budgets/${userId}`
       );
       setBudgets(budgetsResponse.data);
 
       const currentMonth = new Date().getMonth() + 1;
       const currentYear = new Date().getFullYear();
       const comparisonResponse = await axios.get(
-        `http://localhost:3000/api/budgets/${userId}/comparison`,
+        `${API_BASE_URL}/api/budgets/${userId}/comparison`,
         {
           params: { month: currentMonth, year: currentYear },
         }
@@ -57,7 +66,7 @@ const BudgetingPage = () => {
     } finally {
       setLoadingBudgets(false);
     }
-  }, [userId]);
+  }, [userId, API_BASE_URL]);
 
   useEffect(() => {
     if (!loadingUser && userId) {
@@ -79,7 +88,7 @@ const BudgetingPage = () => {
     }
     setBudgetError(null);
     try {
-      await axios.delete(`http://localhost:3000/api/budgets/${budgetId}`, {
+      await axios.delete(`${API_BASE_URL}/api/budgets/${budgetId}`, {
         params: { userId: userId },
       });
       handleBudgetSuccess();
@@ -116,8 +125,8 @@ const BudgetingPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-12 font-sans">
+      <div className={contentWrapperClasses}>
         {/* Header Section */}
         <div className="text-center mb-12">
           <div className="flex justify-center mb-6">
@@ -125,7 +134,7 @@ const BudgetingPage = () => {
               <Target className="w-8 h-8 text-white" />
             </div>
           </div>
-          <h1 className={titleClasses}>Budget Management</h1>
+          <h1 className={mainTitleClasses}>Budget Management</h1>
           <p className="text-xl text-slate-300 max-w-2xl mx-auto">
             Set monthly budgets, track spending, and get insights to achieve
             your financial goals
@@ -135,12 +144,22 @@ const BudgetingPage = () => {
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-12">
           {/* Set Budget Form */}
           <div className="xl:col-span-1">
-            <div className={`${cardClasses} hover:border-purple-500/50`}>
+            <div className={`${cardClasses} hover:scale-[1.005]`}>
+              {" "}
+              {/* Added subtle hover effect */}
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center">
                   <DollarSign className="w-5 h-5 text-white" />
                 </div>
-                <h2 className="text-2xl font-bold text-white">Set Budget</h2>
+                <h2
+                  className={cardHeadingClasses.replace(
+                    "mb-4 pb-2 border-b border-slate-700",
+                    ""
+                  )}
+                >
+                  Set Budget
+                </h2>{" "}
+                {/* Adjusted heading for card */}
               </div>
               <BudgetForm
                 onBudgetSuccess={handleBudgetSuccess}
@@ -153,14 +172,17 @@ const BudgetingPage = () => {
           {/* Current Budgets List */}
           <div className="xl:col-span-2">
             <div className={cardClasses}>
-              {" "}
-              {/* No specific hover for list container */}
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
                   <Calendar className="w-5 h-5 text-white" />
                 </div>
-                <h2 className="text-2xl font-bold text-white">
-                  Current Budgets
+                <h2
+                  className={cardHeadingClasses.replace(
+                    "mb-4 pb-2 border-b border-slate-700",
+                    ""
+                  )}
+                >
+                  Your Current Budgets
                 </h2>
               </div>
               {budgets.length === 0 ? (
@@ -173,41 +195,60 @@ const BudgetingPage = () => {
                   </p>
                 </div>
               ) : (
-                <div className="space-y-4">
-                  {budgets.map((budget) => (
-                    <div
-                      key={budget._id}
-                      className="bg-slate-700/50 rounded-xl p-6 border border-slate-600/50 hover:border-slate-500/50 transition-all duration-300"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-2">
-                            <span className="text-lg font-semibold text-white">
-                              {getCategoryLabel(budget.category)}
-                            </span>
-                            <span className="text-sm text-slate-400 bg-slate-600/50 px-2 py-1 rounded-lg">
-                              {new Date(
-                                budget.year,
-                                budget.month - 1
-                              ).toLocaleString("default", {
-                                month: "long",
-                              })}{" "}
-                              {budget.year}
-                            </span>
-                          </div>
-                          <div className="text-2xl font-bold text-green-400">
-                            ₹{budget.budgetedAmount.toFixed(2)}
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => handleDeleteBudget(budget._id)}
-                          className="bg-red-600/20 hover:bg-red-600/30 text-red-400 hover:text-red-300 p-3 rounded-xl transition-all duration-200 hover:scale-105"
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-slate-700">
+                    <thead className="bg-slate-700/50">
+                      <tr>
+                        <th className="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                          Category
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                          Month
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                          Year
+                        </th>
+                        <th className="px-6 py-4 text-right text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                          Budgeted Amount (₹)
+                        </th>
+                        <th className="px-6 py-4 text-center text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-700">
+                      {budgets.map((budget) => (
+                        <tr
+                          key={budget._id}
+                          className="bg-slate-800/60 hover:bg-slate-700/70 transition-colors duration-150"
                         >
-                          <Trash2 className="w-5 h-5" />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+                          <td className="px-6 py-4 whitespace-nowrap text-base font-normal text-white">
+                            {getCategoryLabel(budget.category)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-base font-normal text-slate-300">
+                            {new Date(
+                              budget.year,
+                              budget.month - 1
+                            ).toLocaleString("default", { month: "long" })}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-base font-normal text-slate-300">
+                            {budget.year}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-base text-emerald-400 font-semibold text-right">
+                            ₹{budget.budgetedAmount.toFixed(2)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-center text-sm">
+                            <button
+                              onClick={() => handleDeleteBudget(budget._id)}
+                              className="bg-red-600/20 hover:bg-red-600/30 text-red-400 hover:text-red-300 p-2 rounded-md transition-all duration-200"
+                            >
+                              <Trash2 className="w-5 h-5" />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               )}
             </div>
@@ -216,16 +257,20 @@ const BudgetingPage = () => {
 
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-12">
           {/* Budget vs Actual Chart */}
-          <div className={`${cardClasses} hover:border-purple-500/50`}>
+          <div className={`${cardClasses} hover:scale-[1.005]`}>
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
                 <TrendingUp className="w-5 h-5 text-white" />
               </div>
-              <h2 className="text-2xl font-bold text-white">
-                Budget vs Actual
+              <h2
+                className={cardHeadingClasses.replace(
+                  "mb-4 pb-2 border-b border-slate-700",
+                  ""
+                )}
+              >
+                Budget vs Actual Comparison
               </h2>
             </div>
-            {/* Ensure userId is passed to BudgetComparisonChart */}
             <BudgetComparisonChart
               userId={userId}
               triggerRefresh={refreshTrigger}
@@ -233,16 +278,20 @@ const BudgetingPage = () => {
           </div>
 
           {/* Spending Insights */}
-          <div className={`${cardClasses} hover:border-purple-500/50`}>
+          <div className={`${cardClasses} hover:scale-[1.005]`}>
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center">
                 <PieChart className="w-5 h-5 text-white" />
               </div>
-              <h2 className="text-2xl font-bold text-white">
+              <h2
+                className={cardHeadingClasses.replace(
+                  "mb-4 pb-2 border-b border-slate-700",
+                  ""
+                )}
+              >
                 Spending Insights
               </h2>
             </div>
-            {/* Ensure userId is passed to SpendingInsights */}
             <SpendingInsights
               userId={userId}
               budgetComparisonData={currentMonthBudgetComparison}

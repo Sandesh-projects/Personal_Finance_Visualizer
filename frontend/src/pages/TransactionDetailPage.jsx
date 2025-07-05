@@ -12,6 +12,9 @@ import {
   FileText,
 } from "lucide-react";
 
+// Define your backend API base URL using an environment variable
+const API_BASE_URL = import.meta.env.VITE_APP_BACKEND_API_URL;
+
 const TransactionDetailPage = () => {
   const { transactionId } = useParams();
   const { userId, loadingUser, error: userError } = useUser();
@@ -26,8 +29,9 @@ const TransactionDetailPage = () => {
       setLoading(true);
       setError(null);
       try {
+        // UPDATED AXIOS ENDPOINT
         const response = await axios.get(
-          `http://localhost:3000/api/transactions/detail/${transactionId}`,
+          `${API_BASE_URL}/api/transactions/detail/${transactionId}`,
           {
             params: { userId: userId },
           }
@@ -46,7 +50,7 @@ const TransactionDetailPage = () => {
     if (!loadingUser && userId) {
       fetchTransactionDetails();
     }
-  }, [transactionId, userId, loadingUser]);
+  }, [transactionId, userId, loadingUser, API_BASE_URL]); // Added API_BASE_URL to dependency array
 
   if (loadingUser || loading) {
     return (
@@ -65,7 +69,7 @@ const TransactionDetailPage = () => {
 
   if (userError || error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex justify-center items-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-red-900 to-slate-900 flex justify-center items-center">
         <div className="max-w-md w-full mx-4">
           <div className="bg-red-900/50 backdrop-blur-sm rounded-2xl p-8 border border-red-700/50 text-center shadow-xl">
             <div className="w-16 h-16 bg-red-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
@@ -112,7 +116,7 @@ const TransactionDetailPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-12 px-4 font-sans">
       <div className="max-w-4xl mx-auto">
         {/* Main Transaction Detail Card */}
         <div className="bg-slate-800/80 backdrop-blur-sm rounded-2xl border border-slate-700/50 overflow-hidden shadow-xl">

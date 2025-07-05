@@ -21,6 +21,10 @@ import {
 } from "lucide-react";
 import axios from "axios";
 
+// Define your backend API base URL using an environment variable
+// This should be consistent across all frontend files making API calls.
+const API_BASE_URL = import.meta.env.VITE_APP_BACKEND_API_URL;
+
 // Dashboard component definition
 const Dashboard = ({
   deviceId,
@@ -183,6 +187,23 @@ const Dashboard = ({
         </div>
       </section>
 
+      {/* SpendingInsights section - assuming it fits the theme naturally */}
+      <section className={sectionClasses}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Target size={36} className="text-pink-400" /> {/* Example icon */}
+            <h2 className={titleClasses}>Smart Insights</h2>
+          </div>
+          <p className={subtitleClasses}>
+            Get personalized insights and actionable advice to improve your
+            financial health
+          </p>
+          <div className={cardClasses}>
+            <SpendingInsights userId={userId} triggerRefresh={refreshTrigger} />
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="py-12 border-t border-slate-700/50 bg-slate-900/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -198,7 +219,7 @@ const Dashboard = ({
   );
 };
 
-// Main App component (remains the same)
+// Main App component
 function App() {
   const { deviceId, userId, loadingUser, error: userError } = useUser();
   const [transactions, setTransactions] = useState([]);
@@ -211,14 +232,19 @@ function App() {
   const [totalIncome, setTotalIncome] = useState(0);
   const [mostRecentTransactions, setMostRecentTransactions] = useState([]);
 
+  // Define your backend API base URL using an environment variable
+  // This should be consistent across all frontend files making API calls.
+  const API_BASE_URL = import.meta.env.VITE_APP_BACKEND_API_URL;
+
   const fetchTransactions = useCallback(async () => {
     if (!userId) return;
 
     setLoadingTransactions(true);
     setTransactionError(null);
     try {
+      // UPDATED AXIOS ENDPOINT
       const response = await axios.get(
-        `http://localhost:3000/api/transactions/${userId}`
+        `${API_BASE_URL}/api/transactions/${userId}`
       );
       const fetchedTransactions = response.data;
       setTransactions(fetchedTransactions);
@@ -245,7 +271,7 @@ function App() {
     } finally {
       setLoadingTransactions(false);
     }
-  }, [userId]);
+  }, [userId, API_BASE_URL]); // Added API_BASE_URL to dependency array
 
   useEffect(() => {
     fetchTransactions();

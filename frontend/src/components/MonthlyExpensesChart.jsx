@@ -15,6 +15,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+// Define your backend API base URL using an environment variable
+const API_BASE_URL = import.meta.env.VITE_APP_BACKEND_API_URL;
+
 const MonthlyExpensesChart = ({ triggerRefresh }) => {
   const { userId } = useUser();
   const [chartData, setChartData] = useState([]);
@@ -36,8 +39,9 @@ const MonthlyExpensesChart = ({ triggerRefresh }) => {
         // Adjust API endpoint based on granularity
         // Assuming backend supports a /api/transactions/:userId/aggregated-expenses endpoint
         // with a 'granularity' query parameter (day, month, year)
+        // UPDATED AXIOS ENDPOINT
         const response = await axios.get(
-          `http://localhost:3000/api/transactions/${userId}/aggregated-expenses`,
+          `${API_BASE_URL}/api/transactions/${userId}/aggregated-expenses`,
           {
             params: { granularity },
           }
@@ -77,12 +81,12 @@ const MonthlyExpensesChart = ({ triggerRefresh }) => {
         setLoading(false);
       }
     },
-    [userId]
+    [userId, API_BASE_URL] // Added API_BASE_URL to dependency array
   );
 
   useEffect(() => {
     fetchChartData(timeGranularity);
-  }, [fetchChartData, triggerRefresh, timeGranularity]); // Re-fetch when userId, triggerRefresh, or granularity changes
+  }, [fetchChartData, triggerRefresh, timeGranularity]);
 
   if (loading) {
     return (

@@ -9,6 +9,8 @@ export const useUser = () => {
   return useContext(UserContext);
 };
 
+const API_BASE_URL = import.meta.env.VITE_APP_BACKEND_API_URL;
+
 export const UserContextProvider = ({ children }) => {
   const [deviceId, setDeviceId] = useState(null);
   const [userId, setUserId] = useState(null); // This will be the MongoDB _id
@@ -29,7 +31,8 @@ export const UserContextProvider = ({ children }) => {
         setDeviceId(currentDeviceId);
 
         // Use axios to send deviceId to the backend
-        const response = await axios.post("http://localhost:3000/api/users", {
+        // Use the API_BASE_URL for your requests
+        const response = await axios.post(`${API_BASE_URL}/api/users`, {
           deviceId: currentDeviceId,
         });
 
@@ -54,6 +57,8 @@ export const UserContextProvider = ({ children }) => {
 
   const value = {
     deviceId,
+    // Add API_BASE_URL to context value if other components need it, otherwise omit
+    // API_BASE_URL,
     userId,
     loadingUser,
     error,
