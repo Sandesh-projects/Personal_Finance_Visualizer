@@ -4,26 +4,29 @@ A simple, intuitive web application designed to help users track their personal 
 
 ## ✨ Features
 
-The project is developed in stages, with each stage building upon the previous one.
+This Personal Finance Visualizer offers a robust set of features to help you manage and understand your finances:
 
-### Stage 1: Basic Transaction Tracking
+- **Transaction Management**:
 
-- **Add/Edit/Delete Transactions**: Easily manage your financial entries with fields for amount, date, and description.
-- **Transaction List View**: See a chronological list of all your recorded transactions.
-- **Monthly Expenses Bar Chart**: Visualize your spending trends over different months.
-- **Basic Form Validation**: Ensures data integrity during transaction entry.
+  - **Add, Edit, and Delete Transactions**: Easily record all your financial entries with fields for amount, date, description, and category.
+  - **Comprehensive Transaction List**: View a chronological list of all your recorded income and expenses.
+  - **Detailed Transaction View**: Access individual transaction details for a closer look.
 
-### Stage 2: Categories
+- **Category-Based Organization**:
 
-- **Predefined Categories**: Organize your transactions into predefined categories (e.g., Food, Transport, Utilities, Income).
-- **Category-wise Pie Chart**: Understand your spending breakdown by category at a glance.
-- **Dashboard Summary Cards**: Get quick insights into your total expenses, total income, and a list of your most recent transactions on the main dashboard.
+  - **Predefined Categories**: Organize your transactions into helpful, predefined categories such as Food, Transport, Utilities, Income, and more.
 
-### Stage 3: Budgeting
+- **Financial Visualization & Insights**:
 
-- **Set Monthly Category Budgets**: Define monthly spending limits for individual categories (excluding income).
-- **Budget vs Actual Comparison Chart**: Visually compare your budgeted amounts against your actual spending for any given month.
-- **Simple Spending Insights**: Receive textual insights on your overall budget performance, highlighting overspent, underspent, and unbudgeted categories.
+  - **Dashboard Summary**: Get quick insights into your total expenses, total income, and a list of your most recent transactions on the main dashboard.
+  - **Spending Trends**: Visualize your expenditure patterns over different Period with an intuitive bar or line chart.
+  - **Category Breakdown**: Understand where your money goes at a glance with a detailed category-wise pie chart.
+  - **Spending Insights**: Receive textual insights into your financial habits and budget performance.
+
+- **Budgeting Tools**:
+  - **Set Monthly Budgets**: Define monthly spending limits for individual expense categories.
+  - **Budget Comparison**: Visually compare your budgeted amounts against your actual spending for any given month, helping you stay on track.
+  - **Performance Analysis**: Identify overspent, underspent, and unbudgeted categories for better financial planning.
 
 ## 🚀 Tech Stack
 
@@ -42,6 +45,10 @@ The application is built with a modern web development stack:
   - **Mongoose**: MongoDB object data modeling (ODM) for Node.js.
   - **dotenv**: To load environment variables from a `.env` file.
   - **cors**: Node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
+
+## 🌐 Live Demo
+
+Experience the deployed application here: [https://personal-finance-visualizer-vert-sigma.vercel.app/](https://personal-finance-visualizer-vert-sigma.vercel.app/)
 
 ## 📁 Folder Structure
 
@@ -94,6 +101,7 @@ The application is built with a modern web development stack:
         |-- App.jsx
         |-- index.css
         |-- main.jsx
+    |-- .env
     |-- .gitignore
     |-- eslint.config.js
     |-- index.html
@@ -101,69 +109,105 @@ The application is built with a modern web development stack:
     |-- package.json
     |-- README.md
     |-- vite.config.js
+|-- .gitignore
 |-- README.md
 ```
 
-## ⚙️ Setup Instructions
+---
+
+# ⚙️ Setup Instructions
 
 Follow these steps to get the project up and running on your local machine.
 
-### Prerequisites
+## Prerequisites
 
 - Node.js (LTS version recommended)
 - MongoDB Atlas account or a local MongoDB instance running.
 
+---
+
 ### 1. Backend Setup
 
 1.  **Navigate to the backend directory:**
+
     ```bash
     cd backend
     ```
+
 2.  **Install dependencies:**
+
     ```bash
     npm install
     ```
+
 3.  **Create a `.env` file:**
-    In the `backend` directory, create a file named `.env` and add your MongoDB connection string.
+
+    In the `backend` directory, create a file named `.env` and add your MongoDB connection string and desired port.
+
     ```env
-    MONGO_URI=your_mongodb_connection_string
+    MONGO_URI=your_mongodb_connection_string_here
     PORT=3000
     ```
-    Replace `your_mongodb_connection_string` with your actual MongoDB Atlas connection string (or local MongoDB URI).
+
+    - Replace `your_mongodb_connection_string_here` with your actual MongoDB Atlas connection string (or local MongoDB URI, e.g., `mongodb://localhost:27017/personalfinancevisualizer`).
+
 4.  **Start the backend server:**
+
     ```bash
     npm start
-    # or if using nodemon: npm run dev
+    # or if using nodemon for development: npm run dev
     ```
-    The backend server should start on `http://localhost:3000`.
+
+    The backend server should start on `http://localhost:3000` (or the port you specified).
 
 ### 2. Frontend Setup
 
 1.  **Navigate to the frontend directory:**
+
     ```bash
     cd frontend
     ```
+
 2.  **Install dependencies:**
+
     ```bash
     npm install
     ```
-3.  **Start the frontend development server:**
+
+3.  **Create a `.env` file:**
+
+    In the `frontend` directory, create a file named `.env` and specify the URL of your backend API.
+
+    ```env
+    VITE_APP_BACKEND_API_URL=your_backend_api_url_here
+    ```
+
+    - Replace `your_backend_api_url_here` with the URL where your backend is running. If running locally, this will be `http://localhost:3000`. If you've deployed your backend (e.g., to Render), use its deployed URL.
+
+4.  **Start the frontend development server:**
+
     ```bash
     npm run dev
     ```
+
     The frontend application should open in your browser, typically at `http://localhost:5173`.
 
-## 🖥️ Usage
+# 🖥️ Usage
 
 Once both the backend and frontend servers are running:
 
-1.  Open your browser to `http://localhost:5173`.
-2.  The application will automatically generate a unique device ID for you (stored in local storage) to keep your data separate. This acts as your "user ID."
-3.  Use the "Add New Transaction" form on the dashboard to record your income and expenses.
-4.  View your transactions in the "Transaction List" and use the "View" button for details, or "Edit" and "Delete" actions.
-5.  Explore your financial overview with the "Monthly Expenses Bar Chart" and "Category-wise Expense Pie Chart".
-6.  Navigate to the "Budgeting" link in the header to:
-    - Set monthly budgets for different expense categories.
-    - Review your set budgets in a table.
-    - See a "Budget vs Actual Spending" comparison chart for a selected month.
-    - Read "Current Month Spending Insights" to understand your financial performance relative to your budgets.
+- Open your browser to `http://localhost:5173` (or the URL where your frontend is hosted if deployed).
+
+- The application will automatically generate a unique device ID for you (stored in local storage) to keep your data separate. This acts as your "user ID."
+
+- Use the "Add New Transaction" form on the dashboard to record your income and expenses.
+
+- View your transactions in the "Transaction List" and use the "View" button for details, or "Edit" and "Delete" actions.
+
+- Explore your financial overview with the "Expenses Bar Chart" and "Category Breakdown Pie Chart".
+
+- Navigate to the "Budgeting" link in the header to:
+  - Set monthly budgets for different expense categories.
+  - Review your set budgets in a table.
+  - See a "Budget vs Actual Spending" comparison chart for a selected month.
+  - Read "Current Month Spending Insights" to understand your financial performance relative to your budgets.
