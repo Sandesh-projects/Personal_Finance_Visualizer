@@ -69,7 +69,9 @@ The application is built with a modern web development stack:
 
 ## 🌐 Live Demo
 
+```bash
 Experience the deployed application here: [https://personal-finance-visualizer-vert-sigma.vercel.app/](https://personal-finance-visualizer-vert-sigma.vercel.app/)
+```
 
 ## 📁 Folder Structure
 
