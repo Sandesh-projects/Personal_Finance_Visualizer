@@ -187,23 +187,6 @@ const Dashboard = ({
         </div>
       </section>
 
-      {/* SpendingInsights section - assuming it fits the theme naturally */}
-      <section className={sectionClasses}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Target size={36} className="text-pink-400" /> {/* Example icon */}
-            <h2 className={titleClasses}>Smart Insights</h2>
-          </div>
-          <p className={subtitleClasses}>
-            Get personalized insights and actionable advice to improve your
-            financial health
-          </p>
-          <div className={cardClasses}>
-            <SpendingInsights userId={userId} triggerRefresh={refreshTrigger} />
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="py-12 border-t border-slate-700/50 bg-slate-900/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
