@@ -40,8 +40,7 @@ The application is built with a modern web development stack:
   A JavaScript library for building user interfaces.
 
 - ![Recharts](https://img.shields.io/badge/Recharts-8884d8?style=for-the-badge&logo=react&logoColor=white)
-  A composable charting library built on React components for data visualization.  
-  _Note: Recharts doesn’t have an official Shields.io badge, so React's logo is used with Recharts' color._
+  A composable charting library built on React components for data visualization.
 
 - ![Axios](https://img.shields.io/badge/axios-671ddf?style=for-the-badge&logo=axios&logoColor=white) Promise-based HTTP client for making API requests.
 
@@ -60,13 +59,11 @@ The application is built with a modern web development stack:
 
 - ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white) A NoSQL document database for storing transaction and budget data.
 
-- ![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=for-the-badge&logo=mongodb&logoColor=white) MongoDB object data modeling (ODM) for Node.js.  
-  _Uses MongoDB logo since Mongoose doesn’t have a dedicated badge._
+- ![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=for-the-badge&logo=mongodb&logoColor=white) MongoDB object data modeling (ODM) for Node.js.
 
 - ![dotenv](https://img.shields.io/badge/dotenv-E6A11D?style=for-the-badge&logo=dotenv&logoColor=white) Loads environment variables from a `.env` file.
 
-- ![CORS](https://img.shields.io/badge/CORS-572776?style=for-the-badge&logo=c&logoColor=white) Middleware for enabling Cross-Origin Resource Sharing.  
-  _Note: A generic "C" logo is used since there is no official badge for CORS._
+- ![CORS](https://img.shields.io/badge/CORS-572776?style=for-the-badge&logo=c&logoColor=white) Middleware for enabling Cross-Origin Resource Sharing.
 
 ---
 
