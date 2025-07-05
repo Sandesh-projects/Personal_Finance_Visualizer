@@ -1,6 +1,12 @@
 // frontend/src/App.jsx (within the Dashboard component)
 import React, { useState, useEffect, useCallback } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  Navigate,
+} from "react-router-dom"; // Import Navigate
 import { useUser } from "./context/UserContext.jsx";
 import TransactionForm from "./components/TransactionForm.jsx";
 import TransactionList from "./components/TransactionList.jsx";
@@ -366,6 +372,8 @@ function App() {
               path="/budgeting"
               element={<BudgetingPage userId={userId} />}
             />
+            {/* Default route: redirects to the dashboard if no other route matches */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
       </div>
